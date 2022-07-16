@@ -8,14 +8,12 @@ import (
 
 var globalConfigInst *globalConfig
 
-var defaultGlobalConfig globalConfigPrototype = globalConfigPrototype{
-	Port:              8080,
-	StandardLogOutput: true,
-}
-
 type globalConfigPrototype struct {
-	Port              int
-	StandardLogOutput bool
+	Port                     int
+	DisableStandardLogOutput bool
+	RootDirectory            string
+	LogDirectory             string
+	DefaultPage              string
 }
 
 type globalConfig struct {
@@ -24,7 +22,7 @@ type globalConfig struct {
 	defaultValueLoading bool
 }
 
-func (j *globalConfig) globalLoad() {
+func (j *globalConfig) GlobalLoad() {
 	j.init(defaultGlobalConfigPath)
 	j.load()
 	j.configContent = &globalConfigPrototype{}
@@ -36,32 +34,63 @@ func (j *globalConfig) globalLoad() {
 	j.defaultValueLoading = false
 }
 
+// GetGlobalConfig
+func GetGlobalConfig() *globalConfig {
+	if globalConfigInst == nil {
+		globalConfigInst = &globalConfig{}
+	}
+	return globalConfigInst
+}
+
+func (j *globalConfig) getConfigBool(varName string, defaultValue bool, value bool) bool {
+	if j.defaultValueLoading {
+		slog.Debugf("get %s failed, get default value = %t", varName, defaultValue)
+		return defaultValue
+	}
+	slog.Debugf("get %s = %t", varName, value)
+	return value
+}
+
+func (j *globalConfig) getConfigString(varName string, defaultValue string, value string) string {
+	if j.defaultValueLoading {
+		slog.Debugf("get %s failed, get default value = %s", varName, defaultValue)
+		return defaultValue
+	}
+	slog.Debugf("get %s = %s", varName, value)
+	return value
+}
+
 // GetPort
 func (j *globalConfig) GetPort() int {
-	if (j.defaultValueLoading) || (j.configContent.Port == 0) {
-		slog.Debugf("get configured port failed, get default port = %d", defaultGlobalConfig.Port)
+	if j.defaultValueLoading {
+		slog.Debugf("get port failed, get default value = %d", defaultGlobalConfig.Port)
 		return defaultGlobalConfig.Port
 	}
-	slog.Debugf("get configured port = %d", j.configContent.Port)
+	slog.Debugf("get port = %d", j.configContent.Port)
 	return j.configContent.Port
 }
 
-// GetStandardLogOutput
-func (j *globalConfig) GetStandardLogOutput() bool {
-	if j.defaultValueLoading {
-		slog.Debugf("get standard log output failed, get default option = %t", defaultGlobalConfig.StandardLogOutput)
-		return defaultGlobalConfig.StandardLogOutput
+// GetDisableStandardLogOutput
+func (j *globalConfig) GetDisableStandardLogOutput() bool {
+	return j.getConfigBool("standard log output", defaultGlobalConfig.DisableStandardLogOutput, j.configContent.DisableStandardLogOutput)
+}
+
+// GetRootDirectory
+func (j *globalConfig) GetRootDirectory() string {
+	return j.getConfigString("root directory", defaultGlobalConfig.RootDirectory, j.configContent.RootDirectory)
+}
+
+// GetLogDirectory
+func (j *globalConfig) GetLogDirectory() string {
+	return j.getConfigString("log directory", defaultGlobalConfig.LogDirectory, j.configContent.LogDirectory)
+}
+
+// GetDefaultPage
+func (j *globalConfig) GetDefaultPage() string {
+	if (j.defaultValueLoading) || (j.configContent.DefaultPage == "") {
+		slog.Debugf("get default page failed, get default value = %s", defaultGlobalConfig.DefaultPage)
+		return defaultGlobalConfig.DefaultPage
 	}
-	slog.Debugf("get standard log output = %t", j.configContent.StandardLogOutput)
-	return j.configContent.StandardLogOutput
-}
-
-func init() {
-	globalConfigInst = &globalConfig{}
-	globalConfigInst.globalLoad()
-}
-
-// GetGlobalConfig
-func GetGlobalConfig() *globalConfig {
-	return globalConfigInst
+	slog.Debugf("get default page = %s", j.configContent.DefaultPage)
+	return j.configContent.DefaultPage
 }

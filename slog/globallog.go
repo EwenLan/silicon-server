@@ -12,13 +12,13 @@ func getTodayLogFilename() string {
 	return fmt.Sprintf("%04d%02d%02d.log", year, month, day)
 }
 
-func init() {
+func SetupGlobalLogger() {
 	globalLogger.Init(defaultLogDirectory + getTodayLogFilename())
 }
 
-// SetStandardLogOutput
-func SetStandardLogOutput(option bool) {
-	globalLogger.SetStandardLogOutput(option)
+// SetDisableStandardLogOutput
+func SetDisableStandardLogOutput(option bool) {
+	globalLogger.SetDisableStandardLogOutput(option)
 	Debugf("set global standard log output = %t", option)
 }
 

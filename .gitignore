@@ -17,3 +17,6 @@
 # Log
 log/
 *.log
+
+# Static Files
+www/

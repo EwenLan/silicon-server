@@ -1,7 +1,7 @@
 package slog
 
 const logPermit = 0644
-const outputDepth = 3
+const outputDepth = 4
 const defaultLogDirectory = "log/"
 
 const (
