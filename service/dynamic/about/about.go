@@ -1,40 +1,24 @@
 package about
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/EwenLan/silicon-server/globaldefine"
 	"github.com/EwenLan/silicon-server/slog"
 )
 
-type versionInfoPrototype struct {
-	BaseGoVersion   string
-	SoftwareVersion string
-	ProjectHome     string
-	Author          string
-	Email           string
-	BuildDate       string
-}
-
-var versionInfo = versionInfoPrototype{
-	BaseGoVersion:   globaldefine.BaseGoVersion,
-	SoftwareVersion: globaldefine.SoftwareVersion,
-	ProjectHome:     globaldefine.ProjectHome,
-	Author:          globaldefine.Author,
-	Email:           globaldefine.Email,
-	BuildDate:       globaldefine.BuildDate,
-}
-
 // ServeAbout
-func ServeAbout(w http.ResponseWriter, r *http.Request) {
-	info, err := json.Marshal(versionInfo)
-	if err != nil {
-		slog.Errorf("fail to marshal version info, err = %s", err)
-		http.NotFound(w, r)
-		return
+func ServeAbout(r *http.Request, responseContent interface{}) bool {
+	res, ok := responseContent.(*globaldefine.VersionInfoPrototype)
+	if (!ok) || (res == nil) {
+		slog.Errorf("fail to assert version info prototype")
+		return false
 	}
-	w.Write(info)
-	w.Header().Set("Content-Type", "applicatin/json")
-	// w.WriteHeader(200)
+	res.BaseGoVersion = globaldefine.BaseGoVersion
+	res.SoftwareVersion = globaldefine.SoftwareVersion
+	res.ProjectHome = globaldefine.ProjectHome
+	res.Author = globaldefine.Author
+	res.Email = globaldefine.Email
+	res.BuildDate = globaldefine.BuildDate
+	return true
 }

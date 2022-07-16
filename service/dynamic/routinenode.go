@@ -6,23 +6,26 @@ import (
 	"github.com/EwenLan/silicon-server/slog"
 )
 
-type routineNodeHandleFunc func(http.ResponseWriter, *http.Request)
+// NodeHandler
+type NodeHandler interface {
+	HttpHandle(http.ResponseWriter, *http.Request)
+}
 
 type routineNode struct {
 	routineTable map[string]*routineNode
-	handleFunc   routineNodeHandleFunc
+	handler      NodeHandler
 }
 
-func (r *routineNode) searchRoutineNode(guider *guiderType) routineNodeHandleFunc {
+func (r *routineNode) searchRoutineNode(guider *guiderType) NodeHandler {
 	curr := guider.getCurrent()
 	if curr == "" {
 		slog.Debugf("reach end of guider, curr = %s", curr)
-		return r.handleFunc
+		return r.handler
 	}
 	nextNode, ok := r.routineTable[curr]
 	if (!ok) || (nextNode == nil) {
 		slog.Debugf("reach leaf of routine tree, curr = %s", curr)
-		return r.handleFunc
+		return r.handler
 	}
 	slog.Debugf("proceedd one step, curr = %s", curr)
 	guider.moveOneStep()

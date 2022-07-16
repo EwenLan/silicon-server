@@ -3,7 +3,9 @@ package dynamic
 import (
 	"strings"
 
+	"github.com/EwenLan/silicon-server/globaldefine"
 	"github.com/EwenLan/silicon-server/service/dynamic/about"
+	"github.com/EwenLan/silicon-server/service/dynamic/jsonhandler"
 )
 
 type guiderType struct {
@@ -38,7 +40,10 @@ func (g *guiderType) init(method string, url string) {
 func InitRootRoutineNode() {
 	rootRoutineNode.routineTable = map[string]*routineNode{
 		"version": {
-			handleFunc: about.ServeAbout,
+			handler: &jsonhandler.JsonHandle{
+				ResponseContent: &globaldefine.VersionInfoPrototype{},
+				JsonHandleFunc:  about.ServeAbout,
+			},
 		},
 	}
 }

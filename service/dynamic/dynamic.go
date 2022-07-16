@@ -6,6 +6,7 @@ import (
 	"github.com/EwenLan/silicon-server/slog"
 )
 
+// ServeDynamic
 func ServeDynamic(w http.ResponseWriter, r *http.Request) {
 	guider := &guiderType{}
 	guider.init(r.Method, r.URL.Path)
@@ -15,6 +16,6 @@ func ServeDynamic(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	handle(w, r)
+	handle.HttpHandle(w, r)
 	slog.Debugf("found handle for path = %+v", guider.steps)
 }

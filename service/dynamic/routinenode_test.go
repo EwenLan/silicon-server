@@ -4,16 +4,18 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/EwenLan/silicon-server/service/dynamic/jsonhandler"
 )
 
 func TestRoutineNode_searchRoutineNode(t *testing.T) {
-	var targetFunc routineNodeHandleFunc = func(w http.ResponseWriter, r *http.Request) {}
-	var notTargetFunc routineNodeHandleFunc = func(w http.ResponseWriter, r *http.Request) {}
+	var targetHandler = &jsonhandler.JsonHandle{}
+	var notTargetHandler = &jsonhandler.JsonHandle{}
 	testCases := []struct {
 		name        string
 		routineNode *routineNode
 		guider      *guiderType
-		want        routineNodeHandleFunc
+		want        NodeHandler
 	}{
 		{
 			name: "normal presice success",
@@ -25,19 +27,15 @@ func TestRoutineNode_searchRoutineNode(t *testing.T) {
 				routineTable: map[string]*routineNode{
 					"version": {
 						routineTable: map[string]*routineNode{
-							http.MethodGet: {
-								handleFunc: targetFunc,
-							},
-							http.MethodPost: {
-								handleFunc: notTargetFunc,
-							},
+							http.MethodGet:  {handler: targetHandler},
+							http.MethodPost: {handler: notTargetHandler},
 						},
-						handleFunc: notTargetFunc,
+						handler: notTargetHandler,
 					},
 				},
-				handleFunc: notTargetFunc,
+				handler: notTargetHandler,
 			},
-			want: targetFunc,
+			want: targetHandler,
 		},
 		{
 			name: "method wildcard success",
@@ -48,12 +46,12 @@ func TestRoutineNode_searchRoutineNode(t *testing.T) {
 			routineNode: &routineNode{
 				routineTable: map[string]*routineNode{
 					"version": {
-						handleFunc: targetFunc,
+						handler: targetHandler,
 					},
 				},
-				handleFunc: notTargetFunc,
+				handler: notTargetHandler,
 			},
-			want: targetFunc,
+			want: targetHandler,
 		},
 		{
 			name: "routine tree wildcard success",
@@ -64,12 +62,12 @@ func TestRoutineNode_searchRoutineNode(t *testing.T) {
 			routineNode: &routineNode{
 				routineTable: map[string]*routineNode{
 					"version": {
-						handleFunc: targetFunc,
+						handler: targetHandler,
 					},
 				},
-				handleFunc: notTargetFunc,
+				handler: notTargetHandler,
 			},
-			want: targetFunc,
+			want: targetHandler,
 		},
 	}
 	for _, tt := range testCases {
