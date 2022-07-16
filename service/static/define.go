@@ -1,5 +1,7 @@
 package static
 
+const subpathIndex = 1
+
 var mimeType = map[string]string{
 	".css":  "text/css",
 	".htm":  "text/html",

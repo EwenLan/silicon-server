@@ -8,4 +8,5 @@ var defaultGlobalConfig globalConfigPrototype = globalConfigPrototype{
 	RootDirectory:            "www",
 	LogDirectory:             "log",
 	DefaultPage:              "index.html",
+	RedirectSubpaths:         []string{},
 }

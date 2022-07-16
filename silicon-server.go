@@ -16,6 +16,7 @@ func initalSetup() {
 	configmanager.GetGlobalConfig().GlobalLoad()
 	slog.SetDisableStandardLogOutput(configmanager.GetGlobalConfig().GetDisableStandardLogOutput())
 	static.SetRootDirectory(configmanager.GetGlobalConfig().GetRootDirectory())
+	static.SetRedirectSubpaths(configmanager.GetGlobalConfig().GetRedirectSubpaths())
 	dynamic.InitRootRoutineNode()
 }
 

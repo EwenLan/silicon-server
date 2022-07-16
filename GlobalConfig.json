@@ -1,5 +1,9 @@
 {
     "Port": 8080,
     "StandardLogOutput": true,
-    "RootDirectory": "./www"
+    "RootDirectory": "./www",
+    "RedirectSubpaths": [
+        "home",
+        "about"
+    ]
 }

@@ -14,6 +14,7 @@ type globalConfigPrototype struct {
 	RootDirectory            string
 	LogDirectory             string
 	DefaultPage              string
+	RedirectSubpaths         []string
 }
 
 type globalConfig struct {
@@ -93,4 +94,14 @@ func (j *globalConfig) GetDefaultPage() string {
 	}
 	slog.Debugf("get default page = %s", j.configContent.DefaultPage)
 	return j.configContent.DefaultPage
+}
+
+// GetRedirectSubpaths
+func (j *globalConfig) GetRedirectSubpaths() []string {
+	if j.defaultValueLoading {
+		slog.Debugf("get redirect sub-paths failed, get default value = %+v", defaultGlobalConfig.RedirectSubpaths)
+		return defaultGlobalConfig.RedirectSubpaths
+	}
+	slog.Debugf("get redirect sub-paths % = %+v", j.configContent.RedirectSubpaths)
+	return j.configContent.RedirectSubpaths
 }
