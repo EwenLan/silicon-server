@@ -102,6 +102,6 @@ func (j *globalConfig) GetRedirectSubpaths() []string {
 		slog.Debugf("get redirect sub-paths failed, get default value = %+v", defaultGlobalConfig.RedirectSubpaths)
 		return defaultGlobalConfig.RedirectSubpaths
 	}
-	slog.Debugf("get redirect sub-paths % = %+v", j.configContent.RedirectSubpaths)
+	slog.Debugf("get redirect sub-paths = %+v", j.configContent.RedirectSubpaths)
 	return j.configContent.RedirectSubpaths
 }
