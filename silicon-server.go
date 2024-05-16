@@ -12,11 +12,17 @@ import (
 )
 
 func initalSetup() {
+	// 日志初始化
 	slog.SetupGlobalLogger()
+	// 加载全局配置
 	configmanager.GetGlobalConfig().GlobalLoad()
+	// 设置日志输出
 	slog.SetDisableStandardLogOutput(configmanager.GetGlobalConfig().GetDisableStandardLogOutput())
+	// 设置根目录
 	static.SetRootDirectory(configmanager.GetGlobalConfig().GetRootDirectory())
+	// 设置重定向路径
 	static.SetRedirectSubpaths(configmanager.GetGlobalConfig().GetRedirectSubpaths())
+	// 初始化路径树
 	dynamic.InitRootRoutineNode()
 }
 

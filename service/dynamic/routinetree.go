@@ -3,9 +3,7 @@ package dynamic
 import (
 	"strings"
 
-	"github.com/EwenLan/silicon-server/globaldefine"
-	"github.com/EwenLan/silicon-server/service/dynamic/about"
-	"github.com/EwenLan/silicon-server/service/dynamic/jsonhandler"
+	"github.com/EwenLan/silicon-server/service/dynamic/api/about"
 )
 
 type guiderType struct {
@@ -37,13 +35,9 @@ func (g *guiderType) init(method string, url string) {
 	g.iterator = 0
 }
 
+// InitRootRoutineNode 初始化动态路径树
 func InitRootRoutineNode() {
 	rootRoutineNode.routineTable = map[string]*routineNode{
-		"version": {
-			handler: &jsonhandler.JsonHandle{
-				ResponseContent: &globaldefine.VersionInfoPrototype{},
-				JsonHandleFunc:  about.ServeAbout,
-			},
-		},
+		"version": {handler: &about.About},
 	}
 }

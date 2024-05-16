@@ -5,12 +5,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/EwenLan/silicon-server/service/dynamic/jsonhandler"
+	"github.com/EwenLan/silicon-server/service/dynamic/handler"
 )
 
 func TestRoutineNode_searchRoutineNode(t *testing.T) {
-	var targetHandler = &jsonhandler.JsonHandle{}
-	var notTargetHandler = &jsonhandler.JsonHandle{}
+	var targetHandler = &handler.JsonHandler{}
+	var notTargetHandler = &handler.JsonHandler{}
 	testCases := []struct {
 		name        string
 		routineNode *routineNode

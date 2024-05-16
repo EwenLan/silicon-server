@@ -6,12 +6,13 @@ import (
 	"github.com/EwenLan/silicon-server/service/dynamic"
 	"github.com/EwenLan/silicon-server/service/static"
 	"github.com/EwenLan/silicon-server/slog"
+	"github.com/EwenLan/silicon-server/utils"
 )
 
 func Serve(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.Path
-	dynamicPrefixLen := len(dynamicPrefix)
-	if (len(url) >= dynamicPrefixLen) && (url[:dynamicPrefixLen] == dynamicPrefix) {
+	dynamicPrefixLen := len(utils.DynamicPrefix)
+	if (len(url) >= dynamicPrefixLen) && (url[:dynamicPrefixLen] == utils.DynamicPrefix) {
 		slog.Debugf("path = %s matched with dynamic service", url)
 		dynamic.ServeDynamic(w, r)
 		return
