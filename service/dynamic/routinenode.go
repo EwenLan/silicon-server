@@ -9,6 +9,7 @@ import (
 // NodeHandler
 type NodeHandler interface {
 	HttpHandle(http.ResponseWriter, *http.Request)
+	Init()
 }
 
 type routineNode struct {

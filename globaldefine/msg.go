@@ -9,3 +9,14 @@ type VersionInfoPrototype struct {
 	Email           string
 	BuildDate       string
 }
+
+type ProcessorReusingTestRequest struct {
+	MessageA string
+	MessageB string
+	MessageC string
+}
+type ProcessorReusingTestResponse struct {
+	ResponseA string
+	ResponseB string
+	ResponseC string
+}

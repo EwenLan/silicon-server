@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/EwenLan/silicon-server/service/dynamic/api/about"
+	"github.com/EwenLan/silicon-server/service/dynamic/api/servertest"
 )
 
 type guiderType struct {
@@ -39,5 +40,9 @@ func (g *guiderType) init(method string, url string) {
 func InitRootRoutineNode() {
 	rootRoutineNode.routineTable = map[string]*routineNode{
 		"version": {handler: &about.About},
+		"test": {routineTable: map[string]*routineNode{
+			"processor-reusing": {handler: &servertest.ProcessorReusingTestImp},
+		},
+		},
 	}
 }

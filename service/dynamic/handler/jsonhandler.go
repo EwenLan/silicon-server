@@ -2,10 +2,10 @@ package handler
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/EwenLan/silicon-server/slog"
-	"github.com/EwenLan/silicon-server/utils"
 )
 
 type JsonHandler struct {
@@ -13,7 +13,8 @@ type JsonHandler struct {
 }
 
 func (v *JsonHandler) innerHandle(reqBody []byte) ([]byte, error) {
-	if len(reqBody) > 0 {
+	if (len(reqBody) > 0) && (v.ServiceHandler.GetRequestStruct() != nil) {
+		slog.Debugf("unmarshal request body %s", string(reqBody))
 		err := json.Unmarshal(reqBody, v.ServiceHandler.GetRequestStruct())
 		if err != nil {
 			slog.Errorf("unmarshal request for body %s failed, err: %s", reqBody, err)
@@ -34,8 +35,13 @@ func (v *JsonHandler) innerHandle(reqBody []byte) ([]byte, error) {
 }
 
 func (v *JsonHandler) HttpHandle(w http.ResponseWriter, r *http.Request) {
-	reqBuff := make([]byte, 0, utils.RequestBuffLen)
-	r.Body.Read(reqBuff)
+	reqBuff, err1 := io.ReadAll(r.Body)
+	if err1 != nil {
+		slog.Errorf("fail to read request for %s", r.RequestURI)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err1.Error()))
+		return
+	}
 	res, err := v.innerHandle(reqBuff)
 	if err != nil {
 		slog.Errorf("inner handle for request %s failed", r.RequestURI)
@@ -45,4 +51,8 @@ func (v *JsonHandler) HttpHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
+}
+
+func (v *JsonHandler) Init() {
+	v.ServiceHandler.Init()
 }

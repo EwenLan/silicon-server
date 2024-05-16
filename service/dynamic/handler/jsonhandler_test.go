@@ -31,6 +31,11 @@ func (i *innerHander1) GetResponseStruct() interface{} {
 	return &i.response
 }
 
+func (i *innerHander1) Init() {
+	i.request = requestStruct{}
+	i.response = responseStruct{}
+}
+
 func TestJsonHander(t *testing.T) {
 	t.Run("check response", func(t *testing.T) {
 		handle1 := JsonHandler{ServiceHandler: new(innerHander1)}

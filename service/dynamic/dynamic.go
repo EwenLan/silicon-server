@@ -16,6 +16,7 @@ func ServeDynamic(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+	handle.Init()
 	handle.HttpHandle(w, r)
 	slog.Debugf("found handle for path = %+v", guider.steps)
 }
