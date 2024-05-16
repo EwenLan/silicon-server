@@ -27,7 +27,7 @@ func (r *routineNode) searchRoutineNode(guider *guiderType) NodeHandler {
 		slog.Debugf("reach leaf of routine tree, curr = %s", curr)
 		return r.handler
 	}
-	slog.Debugf("proceedd one step, curr = %s", curr)
+	slog.Debugf("proceed one step, curr = %s", curr)
 	guider.moveOneStep()
 	return nextNode.searchRoutineNode(guider)
 }
