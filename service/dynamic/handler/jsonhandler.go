@@ -34,6 +34,7 @@ func (v *JsonHandler) innerHandle(reqBody []byte) ([]byte, error) {
 	return res, nil
 }
 
+// HttpHandle 处理HTTP请求
 func (v *JsonHandler) HttpHandle(w http.ResponseWriter, r *http.Request) {
 	reqBuff, err1 := io.ReadAll(r.Body)
 	if err1 != nil {
@@ -53,6 +54,7 @@ func (v *JsonHandler) HttpHandle(w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
+// Init 初始化业务处理
 func (v *JsonHandler) Init() {
 	v.ServiceHandler.Init()
 }

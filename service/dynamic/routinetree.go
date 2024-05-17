@@ -41,7 +41,7 @@ func InitRootRoutineNode() {
 	rootRoutineNode.routineTable = map[string]*routineNode{
 		"version": {handler: &about.About},
 		"test": {routineTable: map[string]*routineNode{
-			"processor-reusing": {handler: &servertest.ProcessorReusingTestImp},
+			"calculate": {handler: &servertest.CalculatorImp},
 		},
 		},
 	}

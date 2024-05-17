@@ -20,3 +20,13 @@ type ProcessorReusingTestResponse struct {
 	ResponseB string
 	ResponseC string
 }
+
+type CalculatingRequest struct {
+	NumA string
+	NumB string
+	Op   string
+}
+
+type CalculatingResponse struct {
+	Ans string
+}
