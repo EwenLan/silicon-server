@@ -42,6 +42,12 @@ func InitRootRoutineNode() {
 		"version": {handler: &about.About},
 		"test": {routineTable: map[string]*routineNode{
 			"calculate": {handler: &servertest.CalculatorImp},
+			"minidatabase": {
+				routineTable: map[string]*routineNode{
+					"PUT": {handler: &servertest.MiniDatabasePutImp},
+					"GET": {handler: &servertest.MiniDatabaseGetImp},
+				},
+			},
 		},
 		},
 	}

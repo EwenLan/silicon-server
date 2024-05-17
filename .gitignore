@@ -20,3 +20,6 @@ log/
 
 # Static Files
 www/
+
+# Database
+*.db

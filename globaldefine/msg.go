@@ -30,3 +30,17 @@ type CalculatingRequest struct {
 type CalculatingResponse struct {
 	Ans string
 }
+
+type MiniDatabaseRequest struct {
+	Name  string
+	Value string
+}
+
+type MiniDatabaseResponse struct {
+	MiniDatabaseRequest
+	ID int64
+}
+
+type MiniDatabaseGetResponse struct {
+	Ans []MiniDatabaseResponse
+}
